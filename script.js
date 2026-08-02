@@ -123,46 +123,65 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. MANIPULADORES DE EVENTOS (EVENT HANDLERS)
     // ----------------------------------------------------------------------
 
-    /**
-     * Envio do Formulário (Submissão e Processamento)
-     */
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+  /**
+ * Envio do Formulário (Submissão, Geração de Sessão e Redirecionamento)
+ */
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        // 1. Validações locais dos campos
-        if (!validateForm()) return;
+    // 1. Validações locais dos campos
+    if (!validateForm()) return;
 
-        const usernameVal = usernameInput.value.trim();
-        const passwordVal = passwordInput.value.trim();
+    const usernameVal = usernameInput.value.trim();
+    const passwordVal = passwordInput.value.trim();
 
-        // 2. Aciona Estado de Loading
-        setLoading(true);
+    // 2. Aciona Estado de Loading
+    setLoading(true);
 
-        // 3. Simulação de requisição assíncrona para API de Backend (Delay de 1.2s)
-        setTimeout(() => {
-            if (usernameVal === AUTH_CREDENTIALS.username && passwordVal === AUTH_CREDENTIALS.password) {
-                // Sucesso na Autenticação
-                showToast("Acesso autorizado! Redirecionando...", "success");
-                
-                // Armazena estado simples de sessão para o protótipo
-                if (document.getElementById("remember-me").checked) {
-                    localStorage.setItem("remembered_user", usernameVal);
-                }
+    // 3. Simulação de autenticação assíncrona
+    setTimeout(() => {
+        if (usernameVal === AUTH_CREDENTIALS.username && passwordVal === AUTH_CREDENTIALS.password) {
+            
+            // ------------------------------------------------------------------
+            // 🔑 GERAÇÃO DA SESSÃO E TOKEN SIMULADO (PROTEÇÃO DE ROTA)
+            // ------------------------------------------------------------------
+            const sessionData = {
+                authenticated: true,
+                user: usernameVal,
+                // Define o token fictício e expiração para 2 horas a partir de agora
+                token: "INDICADORES_AUTH_TOKEN_" + Math.random().toString(36).substr(2),
+                expiresAt: Date.now() + (2 * 60 * 60 * 1000) 
+            };
 
-                // Redireciona para o Painel Principal de Indicadores após 1 segundo
-                setTimeout(() => {
-                    window.location.href = "https://geanclm.github.io/projeto-site/indicadores.html";
-                }, 1000);
+            const rememberMe = document.getElementById("remember-me").checked;
+            const storage = rememberMe ? localStorage : sessionStorage;
 
+            // Salva o estado da sessão de forma estruturada em JSON
+            storage.setItem("indicadores_user_session", JSON.stringify(sessionData));
+
+            if (rememberMe) {
+                localStorage.setItem("remembered_user", usernameVal);
             } else {
-                // Falha na Autenticação
-                setLoading(false);
-                showToast("Usuário ou senha inválidos.", "error");
-                passwordInput.value = "";
-                passwordInput.focus();
+                localStorage.removeItem("remembered_user");
             }
-        }, 1200);
-    });
+
+            // Sucesso e Redirecionamento para a URL do GitHub Pages ou local
+            showToast("Acesso autorizado! Redirecionando...", "success");
+
+            setTimeout(() => {
+                // Redireciona para a página oficial do projeto no GitHub Pages
+                window.location.href = "https://geanclm.github.io/projeto-site/indicadores.html";
+            }, 1000);
+
+        } else {
+            // Falha na Autenticação
+            setLoading(false);
+            showToast("Usuário ou senha inválidos.", "error");
+            passwordInput.value = "";
+            passwordInput.focus();
+        }
+    }, 1200);
+});
 
     /**
      * Botão Limpar: Reseta os campos e os estados visuais
