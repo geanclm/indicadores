@@ -235,4 +235,43 @@ loginForm.addEventListener("submit", async (event) => {
     } else {
         usernameInput.focus();
     }
+
+
+/**
+ * Função responsável por encerrar a sessão do usuário e redirecionar para o login
+ */
+function logout() {
+    // 1. Confirmação opcional de logout
+    const confirmLogout = confirm("Deseja realmente encerrar a sessão e sair?");
+    if (!confirmLogout) return;
+
+    // 2. Limpa os dados de sessão armazenados
+    sessionStorage.removeItem("indicadores_user_session");
+    localStorage.removeItem("indicadores_user_session");
+
+    // 3. Notifica e redireciona de volta para a tela de login (index.html)
+    alert("Sessão encerrada com sucesso!");
+    window.location.href = "index.html"; 
+    // Nota: Se o index.html estiver na raiz do mesmo repositório do GitHub Pages,
+    // "index.html" ou "./index.html" fará o redirecionamento correto.
+}
+
+// Opcional: Atualiza o nome do usuário logado na barra superior ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    const rawSession = sessionStorage.getItem("indicadores_user_session") || 
+                       localStorage.getItem("indicadores_user_session");
+    
+    if (rawSession) {
+        try {
+            const session = JSON.parse(rawSession);
+            if (session.user) {
+                const userSpan = document.getElementById("session-username");
+                if (userSpan) userSpan.textContent = `Olá, ${session.user}`;
+            }
+        } catch (e) {
+            console.error("Erro ao ler dados da sessão", e);
+        }
+    }
+});
+
 });

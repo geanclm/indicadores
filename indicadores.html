@@ -167,6 +167,50 @@
                     font-weight: bold;
                 }
 
+
+/* Estilo da Barra Superior e do Botão de Logout */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    padding: 0.75rem 1.5rem;
+    color: #f0f6fc;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #8b949e;
+}
+
+.btn-logout {
+    background-color: rgba(248, 81, 73, 0.1);
+    color: #f85149;
+    border: 1px solid #f85149;
+    border-radius: 6px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-logout:hover {
+    background-color: #f85149;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(248, 81, 73, 0.3);
+}
+
+
+
             </style>
 
 <script>
@@ -199,21 +243,23 @@
 </script>
 
 
-<script>
-    function logout() {
-        // Remove os tokens de sessão de ambos os storages
-        sessionStorage.removeItem("indicadores_user_session");
-        localStorage.removeItem("indicadores_user_session");
-        
-        // Redireciona de volta para a tela de autenticação
-        window.location.href = "index.html";
-    }
-</script>
-
-
         </head>
 
         <body>
+
+<header class="top-bar">
+    <div class="user-info">
+        <i class="fa-solid fa-user-circle"></i>
+        <span id="session-username">Usuário Autenticado</span>
+    </div>
+    <button type="button" id="btn-logout" class="btn-logout" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair / Logout
+    </button>
+</header>
+
+
+
+
             <div class="container-fluid px-3" style="max-width: 1800px;">
         
         <h1>📊 Indicadores |
