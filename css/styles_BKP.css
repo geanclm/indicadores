@@ -42,10 +42,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-html, body {
-    height: 100%;
-}
-
 body {
     background-color: var(--bg-primary);
     color: var(--text-main);
@@ -55,7 +51,6 @@ body {
     align-items: center;
     padding: 1.5rem;
     overflow-x: hidden;
-    position: relative;
 }
 
 /* Background com iluminação gradiente sutil */
@@ -72,24 +67,16 @@ body::before {
     pointer-events: none;
 }
 
-/* 🔑 Imagem de fundo fixada ao viewport via pseudo-elemento.
-   Cobre 100% da tela sempre, independente da altura real do
-   conteúdo do card (evita faixa sem imagem quando o body
-   cresce além de 100vh e há scroll). */
-body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("../img/login_background.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: -1;
-}
-
 /* ==========================================================================
    CONTAINER E CARD DE LOGIN
    ========================================================================== */
+/* .login-container {
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
+} */
+
 .login-container {
     position: relative;
     display: flex;
@@ -97,6 +84,15 @@ body::after {
     align-items: center;
     width: 100%;
     min-height: 100vh;
+
+    /* 🔑 Garantir que a imagem cubra toda a área */
+    background-image: url("../img/login_background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /* 🔑 Forçar preenchimento total */
+    background-attachment: fixed;   /* mantém a imagem fixa no scroll */
 }
 
 .login-card {
