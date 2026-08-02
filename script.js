@@ -170,7 +170,7 @@ loginForm.addEventListener("submit", async (event) => {
 
             setTimeout(() => {
                 // Redireciona para a página oficial do projeto no GitHub Pages
-                window.location.href = "https://geanclm.github.io/projeto-site/indicadores.html";
+                window.location.href = "https://geanclm.github.io/indicadores/indicadores.html";
             }, 1000);
 
         } else {
