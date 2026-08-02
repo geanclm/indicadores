@@ -200,9 +200,6 @@
 
 
 
-/**
- * Função para encerrar a sessão e testar a proteção
- */
 function logout() {
     // Remove os tokens de sessão de ambos os storages
     sessionStorage.removeItem("indicadores_user_session");
@@ -211,9 +208,6 @@ function logout() {
     // Redireciona de volta para a tela de autenticação
     window.location.href = "index.html";
 }
-
-
-
 
 
         </head>
