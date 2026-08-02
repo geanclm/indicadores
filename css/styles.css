@@ -77,24 +77,23 @@ body::before {
     z-index: 1;
 } */
 
-.login-container{
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:100%;
-    min-height:100vh;
-    background-image:url("../img/login_background.png");
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-size:cover;
+.login-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+
+    /* 🔑 Garantir que a imagem cubra toda a área */
+    background-image: url("../img/login_background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /* 🔑 Forçar preenchimento total */
+    background-attachment: fixed;   /* mantém a imagem fixa no scroll */
 }
-
-
-
-
-
-
 
 .login-card {
     background-color: var(--bg-surface);
