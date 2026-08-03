@@ -67,6 +67,23 @@ body::before {
     pointer-events: none;
 }
 
+
+/* 🔑 Imagem de fundo fixada ao viewport via pseudo-elemento.
+   Cobre 100% da tela sempre, independente da altura real do
+   conteúdo do card (evita faixa sem imagem quando o body
+   cresce além de 100vh e há scroll). */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("../img/login_background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+
 /* ==========================================================================
    CONTAINER E CARD DE LOGIN
    ========================================================================== */
