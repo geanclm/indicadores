@@ -42,6 +42,10 @@
     -webkit-font-smoothing: antialiased;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: var(--bg-primary);
     color: var(--text-main);
@@ -49,16 +53,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem 1rem; /* Reduzido para garantir respiro superior/inferior */
+    padding: 1.5rem;
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Background com iluminação gradiente sutil */
 body::before {
     content: '';
     position: absolute;
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     background: radial-gradient(circle, var(--primary-glow) 0%, rgba(13, 17, 23, 0) 70%);
     top: 50%;
     left: 50%;
@@ -67,24 +72,41 @@ body::before {
     pointer-events: none;
 }
 
+/* 🔑 Imagem de fundo fixada ao viewport via pseudo-elemento.
+   Cobre 100% da tela sempre, independente da altura real do
+   conteúdo do card (evita faixa sem imagem quando o body
+   cresce além de 100vh e há scroll). */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("../img/login_background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
 /* ==========================================================================
    CONTAINER E CARD DE LOGIN
    ========================================================================== */
 .login-container {
-    width: 100%;
-    max-width: 390px; /* Largura levemente mais compacta */
     position: relative;
-    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .login-card {
     background-color: var(--bg-surface);
     border: 1px solid var(--bg-surface-border);
     border-radius: var(--border-radius);
-    padding: 1.5rem 1.5rem; /* Padding interno compacto para evitar cortes */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    animation: fadeInSlideUp 0.4s ease-out forwards;
+    animation: fadeInSlideUp 0.5s ease-out forwards;
 }
 
 /* ==========================================================================
@@ -92,36 +114,36 @@ body::before {
    ========================================================================== */
 .login-header {
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 2rem;
 }
 
 .brand-logo {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     background: linear-gradient(135deg, var(--primary), #00565b);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 0.75rem auto;
+    margin: 0 auto 1.25rem auto;
     box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .brand-logo i {
-    font-size: 1.4rem;
+    font-size: 1.75rem;
     color: #ffffff;
 }
 
 .login-header h1 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
     color: var(--text-main);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.35rem;
 }
 
 .brand-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: var(--text-muted);
 }
 
@@ -129,14 +151,14 @@ body::before {
    TOAST / NOTIFICAÇÕES DE FEEDBACK
    ========================================================================== */
 .toast {
-    padding: 0.65rem 0.85rem;
+    padding: 0.875rem 1rem;
     border-radius: var(--border-radius);
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     transition: var(--transition-smooth);
     animation: shake 0.4s ease-in-out;
 }
@@ -161,16 +183,16 @@ body::before {
    CAMPOS DO FORMULÁRIO
    ========================================================================== */
 .form-group {
-    margin-bottom: 0.85rem;
+    margin-bottom: 1.25rem;
     display: flex;
     flex-direction: column;
 }
 
 .form-group label {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-main);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
 }
 
 .input-wrapper {
@@ -181,21 +203,21 @@ body::before {
 
 .input-icon {
     position: absolute;
-    left: 0.85rem;
+    left: 1rem;
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     transition: var(--transition-fast);
     pointer-events: none;
 }
 
 .input-wrapper input {
     width: 100%;
-    padding: 0.65rem 2.25rem 0.65rem 2.4rem;
+    padding: 0.85rem 1rem 0.85rem 2.75rem;
     background-color: var(--bg-input);
     border: 1px solid var(--bg-surface-border);
     border-radius: var(--border-radius);
     color: var(--text-main);
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     outline: none;
     transition: var(--transition-fast);
 }
@@ -222,11 +244,11 @@ body::before {
 /* Botão do Olho (Toggle Password) */
 .btn-toggle-password {
     position: absolute;
-    right: 0.5rem;
+    right: 0.75rem;
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 0.4rem;
+    padding: 0.5rem;
     cursor: pointer;
     transition: var(--transition-fast);
 }
@@ -237,10 +259,10 @@ body::before {
 
 /* Mensagens de Erro por Campo */
 .error-message {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--error);
-    margin-top: 0.25rem;
-    min-height: 0.9rem;
+    margin-top: 0.35rem;
+    min-height: 1rem;
 }
 
 /* Estado de Erro no Input */
@@ -255,8 +277,8 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
 }
 
 .checkbox-container {
@@ -277,12 +299,12 @@ body::before {
 }
 
 .checkmark {
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
     background-color: var(--bg-input);
     border: 1px solid var(--bg-surface-border);
     border-radius: 4px;
-    margin-right: 0.4rem;
+    margin-right: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -303,7 +325,7 @@ body::before {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     color: white;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     display: none;
 }
 
@@ -328,20 +350,20 @@ body::before {
 .form-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .btn {
     width: 100%;
-    padding: 0.65rem 1rem;
+    padding: 0.85rem 1rem;
     border-radius: var(--border-radius);
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     transition: var(--transition-fast);
     border: none;
 }
@@ -349,7 +371,7 @@ body::before {
 .btn-primary {
     background-color: var(--primary);
     color: #ffffff;
-    box-shadow: 0 4px 10px var(--primary-glow);
+    box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .btn-primary:hover {
@@ -375,8 +397,8 @@ body::before {
 
 /* Estado de Loading (Spinner) */
 .spinner {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top-color: #ffffff;
@@ -391,14 +413,14 @@ body::before {
    RODAPÉ DO CARD
    ========================================================================== */
 .login-footer {
-    margin-top: 1.15rem;
+    margin-top: 2rem;
     text-align: center;
     border-top: 1px solid var(--bg-surface-border);
-    padding-top: 0.85rem;
+    padding-top: 1.25rem;
 }
 
 .login-footer p {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
 }
 
@@ -408,7 +430,7 @@ body::before {
 @keyframes fadeInSlideUp {
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -422,8 +444,8 @@ body::before {
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
 }
 
 /* ==========================================================================
@@ -431,12 +453,12 @@ body::before {
    ========================================================================== */
 @media (max-width: 480px) {
     .login-card {
-        padding: 1.25rem 1.15rem;
+        padding: 2rem 1.25rem;
     }
     
     .form-options {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
 }
